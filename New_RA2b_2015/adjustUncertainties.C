@@ -274,7 +274,28 @@ TCanvas* adjustUncertaintiesUpDn(TFile *file, TFile *fout, bool adjust, char *hn
       }
     }
       
-  } else if(hname == "searchBin_MuRecoSys" || hname == "searchBin_MuIsoSys" || hname == "searchBin_MuRecoIso") {
+  } else if(hname == "searchBin_MuRecoSys" || hname == "QCDBin_HiDphi_MuRecoSys" || hname == "QCDBin_LowDphi_MuRecoSys") {
+    // Uncertainty adjustment: 1% for muon tracking SF systematis, 1% for ICHEP dataset extension
+    leg = new TLegend(0.45, 0.8, 0.8, 0.88);
+    h_up->GetYaxis()->SetRangeUser(0.87, 1.12);
+    h_dn->GetYaxis()->SetRangeUser(0.87, 1.12);
+
+    if(adjust) {
+      double err_adjust;
+      for(int ibin=0; ibin<h_up->GetNbinsX(); ibin++) {
+	double err = h_up->GetBinContent(ibin+1);
+	err_adjust = (1-err)*(1-err) + 0.01*0.01 + 0.01*0.01;
+	h_up->SetBinContent(ibin+1,1-sqrt(err_adjust));
+      }
+      for(int ibin=0; ibin<h_dn->GetNbinsX(); ibin++) {
+	double err = h_dn->GetBinContent(ibin+1);
+	err_adjust = (err-1.)*(err-1.) + 0.01*0.01 + 0.01*0.01;
+	h_dn->SetBinContent(ibin+1,sqrt(err_adjust)+1.);
+      }
+    }
+    
+
+  } else if(hname == "searchBin_MuIsoSys" || hname == "searchBin_MuRecoIso") {
     leg = new TLegend(0.45, 0.8, 0.8, 0.88);
     h_up->GetYaxis()->SetRangeUser(0.87, 1.12);
     h_dn->GetYaxis()->SetRangeUser(0.87, 1.12);
