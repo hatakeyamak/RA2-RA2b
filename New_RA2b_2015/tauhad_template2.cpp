@@ -1643,18 +1643,22 @@ using namespace std;
               if(StudyErrorPropag){
 
 		IdSFUp= 1. 
-		  + utils2::GetSFUnc(hMuIDSF, muPt, muEta, true)
-		  + utils2::GetSFUnc(hMuTrkHighPtSF, muEta, false);
+		  + utils2::GetSFUnc(hMuIDSF, muPt, muEta, sqrt(0.01*0.01+0.01*0.01))
+		  + utils2::GetSFUnc(hMuTrkHighPtSF, muEta, 0.01);
 		IdSFDw= 1. 
-		  - utils2::GetSFUnc(hMuIDSF, muPt, muEta, true)
-		  - utils2::GetSFUnc(hMuTrkHighPtSF, muEta, false);
+		  - utils2::GetSFUnc(hMuIDSF, muPt, muEta, sqrt(0.01*0.01+0.01*0.01))
+		  - utils2::GetSFUnc(hMuTrkHighPtSF, muEta, 0.01);
 	
 		IsoSFUp= 1. 
-		  + utils2::GetSFUnc(hMuIsoSF, muPt, muEta, true);
+		  + utils2::GetSFUnc(hMuIsoSF, muPt, muEta, 0.01);
 		IsoSFDw= 1. 
-		  - utils2::GetSFUnc(hMuIsoSF, muPt, muEta, true);
+		  - utils2::GetSFUnc(hMuIsoSF, muPt, muEta, 0.01);
 
 		/*
+		std::cout << utils2::GetSFUnc(hMuTrkHighPtSF, muEta, true)
+			  << " "
+			  << utils2::GetSFUnc(hMuTrkHighPtSF, muEta, 0.01)
+			  << std::endl;
 		std::cout << utils2::GetSFUnc(hMuIDSF, muPt, muEta, true)  << " " 
 			  << utils2::GetSFUnc(hMuTrkHighPtSF, muEta, false) << " "
 			  << utils2::GetSFUnc(hMuIsoSF, muPt, muEta, true) << std::endl;

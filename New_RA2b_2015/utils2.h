@@ -574,6 +574,30 @@ namespace utils2{
   }
 
 
+  static double GetSFUnc(TH1 *hist, Double_t xVal, double fractionalSysUnc) {
+    // fractionalSysUnc: fractional systematic uncertainty
+
+    std::pair<double, double> SFandUnc = EvalSF(hist, xVal);
+
+    double SF = 0.;
+
+    SF = std::max(std::abs(1-SFandUnc.first), std::sqrt(SFandUnc.second*SFandUnc.second + fractionalSysUnc*SFandUnc.first*fractionalSysUnc*SFandUnc.first));
+
+    return SF;
+  }
+
+  static double GetSFUnc(TH2 *hist, Double_t xVal, Double_t yVal, double fractionalSysUnc) {
+    // fractionalSysUnc: fractional systematic uncertainty
+
+    std::pair<double, double> SFandUnc = EvalSF(hist, xVal, yVal);
+
+    double SF = 0.;
+
+    SF = std::max(std::abs(1-SFandUnc.first), std::sqrt(SFandUnc.second*SFandUnc.second + fractionalSysUnc*SFandUnc.first*fractionalSysUnc*SFandUnc.first));
+
+    return SF;
+  }
+
   static double GetSFUnc(TH1 *hist, Double_t xVal, bool addSys) {
     // addSys: for muons, 1% systematic has to be added to total uncertainty
 
@@ -587,8 +611,6 @@ namespace utils2{
     return SF;
   }
 
-
-
   static double GetSFUnc(TH2 *hist, Double_t xVal, Double_t yVal, bool addSys) {
     // addSys: for muons, 1% systematic has to be added to total uncertainty
 
@@ -598,8 +620,6 @@ namespace utils2{
 
     if(addSys) SF = std::max(std::abs(1-SFandUnc.first), std::sqrt(SFandUnc.second*SFandUnc.second + 0.01*SFandUnc.first*0.01*SFandUnc.first));
     else SF = std::max(std::abs(1-SFandUnc.first), SFandUnc.second);
-
-    //std::cout << std::abs(1-hist->GetBinContent(nxBin, nyBin)) << " " << std::sqrt(hist->GetBinError(nxBin, nyBin)*hist->GetBinError(nxBin, nyBin) + 0.01*hist->GetBinContent(nxBin, nyBin)*0.01*hist->GetBinContent(nxBin, nyBin)) << " " << hist->GetBinError(nxBin, nyBin)<<std::endl;
 
     return SF;
   }
