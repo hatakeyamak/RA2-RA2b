@@ -396,6 +396,15 @@ using namespace std;
     TH1* IsoPion_pass = new TH1D("IsoPion_pass","Isolated pion efficiency -- pass ",totNbins,1,totNbins+1);
     IsoPion_pass->Sumw2();
 
+    TH1* MuPt_NJ34 = new TH1D("MuPt_NJ34","MuPtDistribution_HTMHT=[350,500]",150,0.,150.);
+    TH1* MuEta_NJ34 = new TH1D("MuEta_NJ34","MuEtaDistribution_HTMHT=[350,500]",50,-2.5,2.5);
+    TH1* MuPhi_NJ34 = new TH1D("MuPhi_NJ34","MuPhiDistribution_HTMHT=[350,500]",80,-4.,4.);
+
+    TH1* MuPt_NJ56 = new TH1D("MuPt_NJ56","MuPtDistribution_HTMHT=[350,500]",150,0.,150.);
+    TH1* MuEta_NJ56 = new TH1D("MuEta_NJ56","MuEtaDistribution_HTMHT=[350,500]",50,-2.5,2.5);
+    TH1* MuPhi_NJ56 = new TH1D("MuPhi_NJ56","MuPhiDistribution_HTMHT=[350,500]",80,-4.,4.);
+
+
 
     // The tau response templates
     Utils * utils = new Utils();
@@ -684,15 +693,16 @@ using namespace std;
     // Use Ahmad's tau template
     TFile * resp_file_temp = new TFile("TauHad/Stack/Elog371_HadTau_TauResponseTemplates_stacked.root","R");
     TFile * resp_file = new TFile("TauHad/Stack/Elog433_HadTau_TauResponseTemplates_stacked.root","R");
+    
     for(int i=0; i<TauResponse_nBins; i++){
       sprintf(histname,"hTauResp_%d",i);
       //    vec_resp.push_back( (TH1D*) resp_file->Get( histname )->Clone() );
       vec_resp.push_back( (TH1D*) resp_file_taugun->Get( histname )->Clone() );
       if(subSampleKey.find("template")!=string::npos){
         sprintf(histname,"hTauResp_%d_Up",i);
-        vec_respUp.push_back( (TH1D*) resp_file->Get( histname )->Clone() );
+        vec_respUp.push_back( (TH1D*) resp_file_taugun->Get( histname )->Clone() );
         sprintf(histname,"hTauResp_%d_Down",i);
-        vec_respDown.push_back( (TH1D*) resp_file->Get( histname )->Clone() );
+        vec_respDown.push_back( (TH1D*) resp_file_taugun->Get( histname )->Clone() );
       }
       sprintf(histname,"hTauResp_%d_xy",i);
       vec_resp_xy.push_back( (TH2D*) resp_file->Get( histname )->Clone() );
@@ -789,7 +799,7 @@ using namespace std;
       if(evt->DataBool_())eventWeight = 1.;
       //eventWeight = evt->weight()/evt->puweight();
 
-      //if(eventN>10000)break;
+      //if(eventN>30000)break;
       //if(eventN>50)break;
 
       cutflow_preselection->Fill(0.,eventWeight); // keep track of all events processed
@@ -994,7 +1004,7 @@ using namespace std;
             }
           }
         }
-
+	
         ///select electrons with pt>10. eta<2.5 relIso<.2
         vec_recoElec3vec.clear();
 
@@ -1110,7 +1120,9 @@ using namespace std;
               double phi_genTau_tauJet=0.;
               if(binx!=0){
                 if(verbose!=0)cout << "deltaPhi: " << h2tau_phi->ProjectionY("angularTemplate",binx,binx,"")->GetRandom() << endl;
-                phi_genTau_tauJet=h2tau_phi->ProjectionY("angularTemplate",binx,binx,"")->GetRandom(); 
+                phi_genTau_tauJet=h2tau_phi->ProjectionY("angularTemplate",binx,binx,"")->GetRandom();
+		
+		//std::cout<<" phi_genTau_tauJet "<<phi_genTau_tauJet<<endl; 
               }
               simTauJetPhi_xy=simTauJetPhi + phi_genTau_tauJet ;
               simTauJetPt_xy=simTauJetPt; 
@@ -1206,6 +1218,8 @@ using namespace std;
                 if(NewTauJet3Vec.Pt()>30. && fabs(NewTauJet3Vec.Eta())<5.)MHT3JetVec.push_back(NewTauJet3Vec);
               }              
             }
+      
+
 	    // for fastsim	    
 	    if (!evt->DataBool_() && fastsim && utils2::genHTMHT){
 	    if(GenJetIdx==-1){
@@ -1261,6 +1275,7 @@ using namespace std;
             }        
             newMHT=newMHT3Vec.Pt();
             newMHTPhi=newMHT3Vec.Phi();
+	    
 	    // for fastsim	    
             double newGenHT=0,newGenMHT=0,newGenMHTPhi=-1;
             TVector3 newGenMHT3Vec;
@@ -1540,7 +1555,43 @@ using namespace std;
                   printf("i: %d HT3JetVec[i].Pt(): %g \n ",i,HT3JetVec[i].Pt());
                 }
               }
+	     
+	      /*
+	      if(newNJet>=5 && newNJet<=6 && newHT >= 500 && newHT <1000 && newMHT>=350 && newMHT<500 && m==0){
+		
+	//*AR-Nov8,2016-Check dR between simulated tau jet and other jets
+		if(slimJetIdx!=-1){
+		  double taujet_eta=NewTauJet3Vec.Eta();
+		  double taujet_pt=NewTauJet3Vec.Pt(); 
+		  double taujet_phi=NewTauJet3Vec.Phi();
+		  //	      std::cout<<" eventN "<<eventN<<" slimJetIdx "<<slimJetIdx<<" taujet_eta "<<taujet_eta<<" taujet_phi "<<taujet_phi<<" num_slimjets "<<evt->slimJetPtVec_().size()<<endl;
+		  for(int i=0;i<evt->slimJetPtVec_().size();i++){
+		    if(i!=slimJetIdx){
+		      double jet_eta=evt->slimJetEtaVec_()[i];
+		      double jet_phi=evt->slimJetPhiVec_()[i];
+		      double delta_eta_square=(taujet_eta-jet_eta)*(taujet_eta-jet_eta);
+		      double delta_phi_square=(taujet_phi-jet_phi)*(taujet_phi-jet_phi);
+		      double dR_taujet_jet=sqrt(delta_eta_square + delta_phi_square);
+		      if(dR_taujet_jet<0.4)
+			std::cout<<" eventN "<<eventN<<" l "<<l<<" tauJetIdx "<<slimJetIdx<<" taujet_pt "<<taujet_pt<<" taujet_eta "<<taujet_eta<<" taujet_phi "<<taujet_phi<<" num_slimjets "<<evt->slimJetPtVec_().size()<<" jetIdx "<<i<<" jet_eta "<<jet_eta<<" jet_phi "<<jet_phi<<" dR "<<dR_taujet_jet<<endl;
+		      
+			
+		    }
+		  }
+		}
+	      }	      
+	      
+	      
+	     
 
+	      if(newNJet>=5 && newNJet<=6 && newHT >= 350 && newHT <500 && m==0){
+		//		std::cout<<" newMHT "<<newMHT<<endl;
+		if(newMHT>=350 && newMHT<500){
+		  std::cout<<" eventN "<<eventN<<" l"<<l<<"old jets "<<evt->nJets()<<" newNJet "<<newNJet<<" mueta "<<muEta<<" muphi "<<muPhi<<" mupt "<< muPt<<" simTauJetPt_xy "<<simTauJetPt_xy<<" simTauJetPhi_xy "<<simTauJetPhi_xy<<" dPhi "<<simTauJetPhi_xy-muPhi<<endl;
+		  std::cout<<"*********Fall in bin*******"<<endl;
+		}
+	      }
+	      */ 
 	      // 
 	      // newNJet,newHT,newMHT,newNB fully ready
 	      // 
@@ -1972,7 +2023,7 @@ using namespace std;
                   // calculate trigger efficiency 
                   trig_all->Fill(binMap[utils2::findBin_NoB(newNJet,newHT,newMHT).c_str()],eventWeight);
                   if(trigPass)trig_pass->Fill(binMap[utils2::findBin_NoB(newNJet,newHT,newMHT).c_str()],eventWeight); 
-                }
+                }//end of "No" bootstrap
 
 
 
@@ -2003,6 +2054,17 @@ using namespace std;
 	for (int i=1;i<=174;i++){
 	  searchH_b->GetXaxis()->SetBinLabel(i,utils2::RenameBins(i));
 	}
+	if(newNJet>=3 && newNJet<=4 && newHT>=350 && newHT<500 && newMHT>=350 && newMHT<500){
+	  MuPt_NJ34->Fill(muPt);
+	  MuEta_NJ34->Fill(muEta);
+	  MuPhi_NJ34->Fill(muPhi);
+	}
+	if(newNJet>=5 && newNJet<=6 && newHT>=350 && newHT<500 && newMHT>=350 && newMHT<500){
+	  MuPt_NJ56->Fill(muPt);
+	  MuEta_NJ56->Fill(muEta);
+	  MuPhi_NJ56->Fill(muPhi);
+	}
+
         //KH-Feb2016-starts
         double newHT_tmp,newMHT_tmp,newNJet_tmp,NewNB_tmp;
         newHT_tmp=newHT; newMHT_tmp=newMHT; newNJet_tmp=newNJet; NewNB_tmp=NewNB;
@@ -2529,6 +2591,12 @@ using namespace std;
     QCD_Low->Write();
     searchH_b->Write();
     searchH_b_noWeight->Write();
+    MuPt_NJ34->Write();
+    MuEta_NJ34->Write();
+    MuPhi_NJ34->Write();
+    MuPt_NJ56->Write();
+    MuEta_NJ56->Write();
+    MuPhi_NJ56->Write();
     hPredHTMHT0b->Write();
     hPredHTMHTwb->Write();
     hPredNJetBins->Write();

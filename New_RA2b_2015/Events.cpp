@@ -6,7 +6,7 @@
   Events::Events(TTree * ttree_, const std::string sampleKeyString, int verbose) : currentEntry_(-1) {
 
     // Data or MC ?
-    DataBool=true;
+    DataBool=false;
 
     // Study Tau ID
     StudyTauId=false;
@@ -535,6 +535,33 @@
       //std::cout<<" slimJetPtVec_().size() "<<vec.size()<<std::endl;
       return vec;      
     }
+
+    vector<double>  Events::slimJetupPtVec_() const { 
+      vector<double> vec;
+      for(int i=0;i < JetsJECup->size();i++){
+	vec.push_back(JetsJECup->at(i).Pt());
+      }
+      for(int i=0;i < softJetsJECup->size();i++){
+	vec.push_back(softJetsJECup->at(i).Pt());
+      }
+      //std::cout<<" Jets.size() "<<Jets->size()<<" ";
+      //std::cout<<" softJets.size() "<<softJets->size()<<" ";
+      //std::cout<<" slimJetPtVec_().size() "<<vec.size()<<std::endl;
+      return vec;      
+    }
+    vector<double>  Events::slimJetdownPtVec_() const { 
+      vector<double> vec;
+      for(int i=0;i < JetsJECdown->size();i++){
+	vec.push_back(JetsJECdown->at(i).Pt());
+      }
+      for(int i=0;i < softJetsJECdown->size();i++){
+	vec.push_back(softJetsJECdown->at(i).Pt());
+      }
+      //std::cout<<" Jets.size() "<<Jets->size()<<" ";
+      //std::cout<<" softJets.size() "<<softJets->size()<<" ";
+      //std::cout<<" slimJetPtVec_().size() "<<vec.size()<<std::endl;
+      return vec;      
+    }
     vector<double>  Events::GenJetPtVec_() const { 
       vector<double> vec;
       for(int i=0;i < GenJets->size();i++){
@@ -553,6 +580,33 @@
       
       return vec;
     }
+    vector<double>  Events::slimJetupEtaVec_() const { 
+      vector<double> vec;
+      for(int i=0;i < JetsJECup->size();i++){
+	vec.push_back(JetsJECup->at(i).Eta());
+      }
+      for(int i=0;i < softJetsJECup->size();i++){
+	vec.push_back(softJetsJECup->at(i).Eta());
+      }
+      //std::cout<<" Jets.size() "<<Jets->size()<<" ";
+      //std::cout<<" softJets.size() "<<softJets->size()<<" ";
+      //std::cout<<" slimJetEtaVec_().size() "<<vec.size()<<std::endl;
+      return vec;      
+    }
+    vector<double>  Events::slimJetdownEtaVec_() const { 
+      vector<double> vec;
+      for(int i=0;i < JetsJECdown->size();i++){
+	vec.push_back(JetsJECdown->at(i).Eta());
+      }
+      for(int i=0;i < softJetsJECdown->size();i++){
+	vec.push_back(softJetsJECdown->at(i).Eta());
+      }
+      //std::cout<<" Jets.size() "<<Jets->size()<<" ";
+      //std::cout<<" softJets.size() "<<softJets->size()<<" ";
+      //std::cout<<" slimJetEtaVec_().size() "<<vec.size()<<std::endl;
+      return vec;      
+    }
+
     vector<double>  Events::GenJetEtaVec_() const { 
       vector<double> vec;
       for(int i=0;i < GenJets->size();i++){
@@ -571,6 +625,33 @@
       }
       return vec;
     }
+    vector<double>  Events::slimJetupPhiVec_() const { 
+      vector<double> vec;
+      for(int i=0;i < JetsJECup->size();i++){
+	vec.push_back(JetsJECup->at(i).Phi());
+      }
+      for(int i=0;i < softJetsJECup->size();i++){
+	vec.push_back(softJetsJECup->at(i).Phi());
+      }
+      //std::cout<<" Jets.size() "<<Jets->size()<<" ";
+      //std::cout<<" softJets.size() "<<softJets->size()<<" ";
+      //std::cout<<" slimJetPhiVec_().size() "<<vec.size()<<std::endl;
+      return vec;      
+    }
+    vector<double>  Events::slimJetdownPhiVec_() const { 
+      vector<double> vec;
+      for(int i=0;i < JetsJECdown->size();i++){
+	vec.push_back(JetsJECdown->at(i).Phi());
+      }
+      for(int i=0;i < softJetsJECdown->size();i++){
+	vec.push_back(softJetsJECdown->at(i).Phi());
+      }
+      //std::cout<<" Jets.size() "<<Jets->size()<<" ";
+      //std::cout<<" softJets.size() "<<softJets->size()<<" ";
+      //std::cout<<" slimJetPhiVec_().size() "<<vec.size()<<std::endl;
+      return vec;      
+    }
+
     vector<double>  Events::GenJetPhiVec_() const { 
       vector<double> vec;
       for(int i=0;i < GenJets->size();i++){

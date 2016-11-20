@@ -4,7 +4,7 @@ void CalcAcceptanceSystematicsFromScale(){
 
   char tempname[200];
   //  TFile * infile = new TFile("LostLepton2_MuonEfficiencies_hadd.root","R");
-  TFile * infile = new TFile("/home/arane/work/Analysis_May11/CMSSW_7_4_0_pre1/src/Jun21/RA2-RA2b-2015/New_RA2b_2015/ARElog38_LostLepton2_MuonEfficiencies_hadd.root","R");
+  TFile * infile = new TFile("/home/arane/work/Analysis_May11/CMSSW_8_0_20/src/Sep15/RA2-RA2b-2015/New_RA2b_2015/TauHad/ARElog84_LostLepton2_MuonEfficiencies_TTbarPlusWJet_hadd.root","R");
   TH1* hScaleAccPass, * hScaleAccAll, * hScaleAccPass_lowDphi, * hScaleAccAll_lowDphi;
   vector<TH1*> hScaleAccVec, hScaleAcc_lowDphiVec, hScaleAcc_DeviationFromNomVec, hScaleAcc_DeviationFromNom_lowDphiVec;
 
@@ -78,7 +78,7 @@ void CalcAcceptanceSystematicsFromScale(){
   }
 
 
-  TFile * outFile = new TFile("AcceptanceSystematicsFromScale_AllSamples.root","RECREATE");
+  TFile * outFile = new TFile("ARElog84_AcceptanceSystematicsFromScale_AllSamples.root","RECREATE");
   hScaleAccSysMax->Write();
   hScaleAccSysMax_lowDphi->Write();
   hScaleAccSysMin->Write();

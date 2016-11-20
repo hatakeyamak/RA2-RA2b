@@ -87,19 +87,19 @@ void HadTauEstimation_output_format(//string elogForData="KHElog425_",       // 
 				    //
 				    string elogForMCExp="ARElog82_",
 				    string elogForMCPre="ARElog82_",
-				    string elogForSys="ARElog83_",          // MC-based systematics evaluation for Btag mistag uncertainties and muon efficiency stat uncertainties
-				    string elogForMuSys="ARElog83_",        // MC-based systematics evaluation for muon ID&Iso systematic efficiencies
+				    string elogForSys="ARElog84_",          // MC-based systematics evaluation for Btag mistag uncertainties and muon efficiency stat uncertainties
+				    string elogForMuSys="ARElog84_",        // MC-based systematics evaluation for muon ID&Iso systematic efficiencies
 				    //string elogForJECSysUp="Elog426_",     // JEC Up systematics
 				    //string elogForJECSysDn="Elog426_",     // JEC Down systematics
 				    //string elogForJECSysRef="Elog426_",    // JEC uncertainty reference
 
 
-				    string elogForJECSysUp="ARElog83_",     // JEC Up systematics
-				    string elogForJECSysDn="ARElog83_",     // JEC Down systematics
-				     string elogForJECSysRef="ARElog83_",    // JEC uncertainty reference
+				    string elogForJECSysUp="ARElog84_",     // JEC Up systematics
+				    string elogForJECSysDn="ARElog84_",     // JEC Down systematics
+				    string elogForJECSysRef="ARElog84_",    // JEC uncertainty reference
 				    
-				    string elogForAccPDF="ARElog83_",      // Acceptance uncertainty due to PDF
-				    string elogForAccScale="ARElog83_",    // Acceptance uncertainty due to scale
+				    string elogForAccPDF="ARElog84_",      // Acceptance uncertainty due to PDF
+				    string elogForAccScale="ARElog84_",    // Acceptance uncertainty due to scale
 				    //
 				    string elogForIsoTrkVeto="ARElog63_",   // Isotrack veto efficiency stat uncertainty
 				    string elogForMuFromTau="ARElog63_",    // Muon from tau stat uncertainty
@@ -2060,9 +2060,9 @@ void reLabel(TH1* output){
 	  else if(histname.find("MuRecoIso")!=string::npos){
 	    sprintf(binlabel, "llp_muRecoStat");
 	    if(histname.find("Up")!=string::npos)
-	      sprintf(hname,"totalPredMuRecoSysUp_LL");
+	      sprintf(hname,"totalPredMuRecoStatUp_LL");
 	    else
-	      sprintf(hname,"totalPredMuRecoSysDown_LL");
+	      sprintf(hname,"totalPredMuRecoStatDown_LL");
 
 	  }
 	  else if(histname.find("JEC")!=string::npos){

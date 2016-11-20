@@ -246,6 +246,12 @@ Events(TTree * ttree_, const std::string sampleKeyString="ttbar", int verbose=0)
    vector<double>  slimJetPtVec_() const;
    vector<double>  slimJetEtaVec_() const;
    vector<double>  slimJetPhiVec_() const;
+   vector<double>  slimJetupPtVec_() const;
+   vector<double>  slimJetupEtaVec_() const;
+   vector<double>  slimJetupPhiVec_() const;
+   vector<double>  slimJetdownPtVec_() const;
+   vector<double>  slimJetdownEtaVec_() const;
+   vector<double>  slimJetdownPhiVec_() const;
 
    vector<double>  GenJetPtVec_() const;
    vector<double>  GenJetEtaVec_() const;

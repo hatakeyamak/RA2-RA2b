@@ -51,7 +51,7 @@ void plot_MistagRate_allSamples(string sample="TTbar_", int wjets_hadtau_only=0)
   
   //
   // From W+jets
-  TFile file_WJet("Stack/ARElog52_TauBtaggedRate_WJet_stacked.root","R");
+  TFile file_WJet("Stack/ARElog78_TauBtaggedRate_WJet_stacked_TauMistag_Expectation.root","R");
   temp_wj_tauH = (TH1D*)file_WJet.Get("TauBtaggedRate")->Clone();
   TH1D * wj_tauH = new TH1D("wj_tauH","WJet -- Tau mistag",temp_wj_tauH->GetNbinsX(),temp_wj_tauH->GetXaxis()->GetXmin(),temp_wj_tauH->GetXaxis()->GetXmax());
   for(int ibin=0;ibin<wj_tauH->GetNbinsX()+2;ibin++){
@@ -64,7 +64,7 @@ void plot_MistagRate_allSamples(string sample="TTbar_", int wjets_hadtau_only=0)
 
   //
   // From ttbar
-  TFile file_TTbar("Stack/ARElog52_TauBtaggedRate_TTbar_stacked.root","R");  
+  TFile file_TTbar("Stack/ARElog78_TauBtaggedRate_TTbar_stacked_TauMistag_Expectation.root","R");  
   temp_tt_tauH = (TH1D*)file_TTbar.Get("TauBtaggedRate")->Clone();
   TH1D * tt_tauH = new TH1D("tt_tauH","WJet -- Tau mistag",temp_tt_tauH->GetNbinsX(),temp_tt_tauH->GetXaxis()->GetXmin(),temp_tt_tauH->GetXaxis()->GetXmax());
   for(int ibin=0;ibin<tt_tauH->GetNbinsX()+2;ibin++){
@@ -77,7 +77,7 @@ void plot_MistagRate_allSamples(string sample="TTbar_", int wjets_hadtau_only=0)
 
   //
   // From W+jets - predictions
-  TFile file_WJet_mu("../TauHad2/Stack/TauBtaggedRate_WJet_stacked.root","R");  
+  TFile file_WJet_mu("../TauHad2/Stack/ARElog78_TauBtaggedRate_WJet_stacked_MuMistag_Prediction.root","R");  
   temp_wj_muH = (TH1D*)file_WJet_mu.Get("TauBtaggedRate")->Clone();
   TH1D * wj_muH = new TH1D("wj_muH","WJet -- Tau mistag",temp_wj_muH->GetNbinsX(),temp_wj_muH->GetXaxis()->GetXmin(),temp_wj_muH->GetXaxis()->GetXmax());
   for(int ibin=0;ibin<wj_muH->GetNbinsX()+2;ibin++){
@@ -90,7 +90,7 @@ void plot_MistagRate_allSamples(string sample="TTbar_", int wjets_hadtau_only=0)
 
   //
   // From ttbar - predictions
-  TFile file_TTbar_mu("../TauHad2/Stack/TauBtaggedRate_TTbar_stacked.root","R");
+  TFile file_TTbar_mu("../TauHad2/Stack/ARElog78_TauBtaggedRate_TTbar_stacked_MuMistag_Prediction.root","R");
   temp_tt_muH = (TH1D*)file_TTbar_mu.Get("TauBtaggedRate")->Clone();
   TH1D * tt_muH = new TH1D("tt_muH","WJet -- Tau mistag",temp_tt_muH->GetNbinsX(),temp_tt_muH->GetXaxis()->GetXmin(),temp_tt_muH->GetXaxis()->GetXmax());
   for(int ibin=0;ibin<tt_muH->GetNbinsX()+2;ibin++){
